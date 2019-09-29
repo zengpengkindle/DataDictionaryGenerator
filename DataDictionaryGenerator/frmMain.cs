@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,11 +15,14 @@ using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.XWPF.Extractor;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-
+using System.Configuration;
 namespace DataDictionaryGenerator
 {
     public partial class frmMain : Form
     {
+
+        private string connection = System.Configuration.ConfigurationManager.ConnectionStrings["DbConnetstring"].ConnectionString;
+        private string fileAddress = System.Configuration.ConfigurationManager.AppSettings["FileAddress"];
         #region 私有域
 
         private DataTable dtInfo;
@@ -213,7 +216,7 @@ namespace DataDictionaryGenerator
                     }
                 }
                 //输出保存
-                string docAllPath = Application.StartupPath + "\\SqlDBDicFile.docx";
+                string docAllPath = fileAddress + ":\\SqlDBDicFile.docx";
                 if (File.Exists(docAllPath))
                 {
                     File.Delete(docAllPath);
@@ -274,5 +277,10 @@ namespace DataDictionaryGenerator
         }
 
         #endregion
+
+        private void txtCnnString_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
