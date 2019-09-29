@@ -9,12 +9,12 @@ namespace DataDictionaryGenerator
     static class Program
     {
         /// <summary>
-        /// 应用程序的主入口点。 fuck
+        /// 应用程序的主入口点。 fuck二
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main()  
         {
-            Application.EnableVisualStyles(); 
+            Application.EnableVisualStyles();  
             Application.SetCompatibleTextRenderingDefault(false);  
             Application.Run(new frmMain()); 
         }
