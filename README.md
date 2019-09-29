@@ -1,2 +1,2 @@
 # DataDictionaryGenerator
-SQLSERVER数据字典生成器
+SQLSERVER数据字典生成器水电费
