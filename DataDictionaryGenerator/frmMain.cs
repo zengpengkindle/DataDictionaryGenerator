@@ -21,7 +21,7 @@ namespace DataDictionaryGenerator
     public partial class frmMain : Form
     {
 
-        private string connection = System.Configuration.ConfigurationManager.ConnectionStrings["DbConnetstring"].ConnectionString;
+       // private string connection = System.Configuration.ConfigurationManager.ConnectionStrings["DbConnetstring"].ConnectionString;
         private string fileAddress = System.Configuration.ConfigurationManager.AppSettings["FileAddress"];
         private Dictionary<string, string> connectionDic = new Dictionary<string, string>();
       
@@ -65,11 +65,7 @@ namespace DataDictionaryGenerator
                 }
                 cnn.Dispose();
             }
-            connectionDic.Clear();
-            foreach (var item in connection.Split(';'))
-            {
-                connectionDic.Add(item.Split('=')[0], item.Split('=')[1]);
-            }
+          
             return retMsg;
         }
 
@@ -114,6 +110,11 @@ namespace DataDictionaryGenerator
 
         private ReturnMessage WriteDoc()
         {
+            connectionDic.Clear();
+            foreach (var item in this.txtCnnString.Text.Split(';'))
+            {
+                connectionDic.Add(item.Split('=')[0], item.Split('=')[1]);
+            }
             ReturnMessage retMsg = new ReturnMessage(string.Empty, true);
             FileStream fs = null;
             try
@@ -134,15 +135,18 @@ namespace DataDictionaryGenerator
                         //设置字体
                         r.GetCTR().AddNewRPr().AddNewRFonts().ascii = "宋体";
                         r.GetCTR().AddNewRPr().AddNewRFonts().eastAsia = "宋体";
+                       
                         r.GetCTR().AddNewRPr().AddNewRFonts().hint = ST_Hint.eastAsia;
                         r.GetCTR().AddNewRPr().AddNewSz().val = (ulong)32;//3号字体;
                         r.GetCTR().AddNewRPr().AddNewSzCs().val = (ulong)32;
+                      
                         //设置行间距
                         //单倍为默认值（240twip）不需设置，1.5倍=240X1.5=360twip，2倍=240X2=480twip
                         ctp.AddNewPPr().AddNewSpacing().line = "720";
                         //ctp.AddNewPPr().AddNewSpacing().lineRule = ST_LineSpacingRule.exact;
                         //设置段落文本
                         r.SetText(index.ToString() + "." + dr["表名"].ToString()+"---"+ dr["表说明"].ToString());
+                        
 
                         //表结构，以表格显示
                         CT_Tbl m_CTTbl = doc.Document.body.AddNewTbl();
