@@ -1,4 +1,6 @@
-﻿namespace DataDictionaryGenerator
+﻿using System.Configuration;
+
+namespace DataDictionaryGenerator
 {
     partial class frmMain
     {
@@ -52,7 +54,7 @@
             this.txtCnnString.Name = "txtCnnString";
             this.txtCnnString.Size = new System.Drawing.Size(678, 21);
             this.txtCnnString.TabIndex = 1;
-            this.txtCnnString.Text = "Data Source=ServerIP;Initial Catalog=DBName;UID=sa;PWD=password";
+            this.txtCnnString.Text = ConfigurationManager.ConnectionStrings["DbConnetstring"].ConnectionString; 
             // 
             // btnBulid
             // 

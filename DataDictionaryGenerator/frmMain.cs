@@ -23,6 +23,8 @@ namespace DataDictionaryGenerator
 
         private string connection = System.Configuration.ConfigurationManager.ConnectionStrings["DbConnetstring"].ConnectionString;
         private string fileAddress = System.Configuration.ConfigurationManager.AppSettings["FileAddress"];
+        private Dictionary<string, string> connectionDic = new Dictionary<string, string>();
+      
         #region 私有域
 
         private DataTable dtInfo;
@@ -63,6 +65,11 @@ namespace DataDictionaryGenerator
                 }
                 cnn.Dispose();
             }
+            connectionDic.Clear();
+            foreach (var item in connection.Split(';'))
+            {
+                connectionDic.Add(item.Split('=')[0], item.Split('=')[1]);
+            }
             return retMsg;
         }
 
@@ -94,6 +101,7 @@ namespace DataDictionaryGenerator
                 SqlDataAdapter da = new SqlDataAdapter(strQry, cnnString);
                 da.Fill(dtInfo);
                 dgvData.DataSource = dtInfo;
+               
                 return retMsg;
             }
             catch (Exception ex)
@@ -134,7 +142,7 @@ namespace DataDictionaryGenerator
                         ctp.AddNewPPr().AddNewSpacing().line = "720";
                         //ctp.AddNewPPr().AddNewSpacing().lineRule = ST_LineSpacingRule.exact;
                         //设置段落文本
-                        r.SetText(index.ToString() + "." + dr["表名"].ToString());
+                        r.SetText(index.ToString() + "." + dr["表名"].ToString()+"---"+ dr["表说明"].ToString());
 
                         //表结构，以表格显示
                         CT_Tbl m_CTTbl = doc.Document.body.AddNewTbl();
@@ -216,7 +224,7 @@ namespace DataDictionaryGenerator
                     }
                 }
                 //输出保存
-                string docAllPath = fileAddress + ":\\SqlDBDicFile.docx";
+                string docAllPath = fileAddress + ":\\"+connectionDic["database"] +".docx";
                 if (File.Exists(docAllPath))
                 {
                     File.Delete(docAllPath);
